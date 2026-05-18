@@ -1,0 +1,28 @@
+{
+  "overrides": [
+    {
+      "files": ["*.html"],
+      "options": {
+        "parser": "html",
+        "printWidth": 120,
+        "tabWidth": 2,
+        "useTabs": false,
+        "singleQuote": false,
+        "htmlWhitespaceSensitivity": "css",
+        "bracketSameLine": false,
+        "embeddedLanguageFormatting": "auto"
+      }
+    },
+    {
+      "files": ["*.css"],
+      "options": {
+        "parser": "css",
+        "printWidth": 80,
+        "tabWidth": 2,
+        "useTabs": false,
+        "singleQuote": false,
+        "trailingComma": "none"
+      }
+    }
+  ]
+}

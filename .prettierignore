@@ -1,0 +1,42 @@
+# Ambiente virtual
+venv/
+.venv/
+env/
+
+# Python
+__pycache__/
+*.py
+*.pyc
+*.pyo
+*.pyd
+
+# Banco de dados
+*.db
+*.sqlite
+*.sqlite3
+
+# Arquivos de configuração e build
+*.toml
+*.cfg
+*.ini
+*.env
+*.txt
+*.md
+*.json
+*.lock
+
+# Pastas geradas
+dist/
+build/
+*.egg-info/
+
+# VSCode
+.vscode/
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Flask / uploads gerados em runtime
+instance/
+uploads/
