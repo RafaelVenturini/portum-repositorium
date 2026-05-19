@@ -23,6 +23,7 @@ dependencies = [
     "flask-wtf",
     "email-validator",
     "flask-sqlalchemy",
+    "playwright"
 ]
 
 
