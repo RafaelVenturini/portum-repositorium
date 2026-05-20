@@ -2,8 +2,16 @@ import click
 import random
 from delivery.ext.db import db
 from delivery.models import (
-    User, Role, RoleUser, Level, Business, BusinessType, City, Address
+    User,
+    Role,
+    RoleUser,
+    Level,
+    Business,
+    BusinessType,
+    City,
+    Address,
 )
+
 
 def init_app(app):
 
@@ -11,7 +19,8 @@ def init_app(app):
     def create_db():
         """Cria todas as tabelas do banco de dados."""
         # Garantimos que os modelos foram carregados via __init__
-        import delivery.models 
+        import delivery.models
+
         db.create_all()
         click.echo("Banco de dados materializado com sucesso!")
 
@@ -24,7 +33,7 @@ def init_app(app):
                 ("God", "Acesso total ao sistema"),
                 ("Premium", "Nível gerencial superior"),
                 ("Basic", "Nível operacional"),
-                ("Standard", "Nível padrão de cliente")
+                ("Standard", "Nível padrão de cliente"),
             ]
             for name, desc in levels:
                 if not Level.query.filter_by(name=name).first():
@@ -67,7 +76,7 @@ def init_app(app):
                 joao = User(
                     name="João Silva",
                     email="joao@delivery.com",
-                    cpf="111.111.111-11"
+                    cpf="111.111.111-11",
                 )
                 db.session.add(joao)
                 db.session.flush()
@@ -79,18 +88,13 @@ def init_app(app):
                     corporate_name="Pizzaria João LTDA",
                     trade_name="Suprema Pizza",
                     cnpj="12.345/0001-99",
-                    business_type=type_pizza
+                    business_type=type_pizza,
                 )
                 db.session.add(pizza)
                 db.session.flush()
 
                 # Criar Vínculo de acesso (RoleUser)
-                vinculo = RoleUser(
-                    user=joao,
-                    role=role_admin,
-                    business=pizza,
-                    level=level_god
-                )
+                vinculo = RoleUser(user=joao, role=role_admin, business=pizza, level=level_god)
                 db.session.add(vinculo)
 
             db.session.commit()

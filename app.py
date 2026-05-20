@@ -13,6 +13,7 @@ def create_app(test_config=None):
     # Configuracao da aplicacao (variaveis de ambiente)
     # ----------------------------------------------------------
     from repository.ext.config import init_app as init_config
+
     init_config(app)
 
     if test_config:
@@ -22,10 +23,12 @@ def create_app(test_config=None):
     # Inicializacao do banco de dados
     # ----------------------------------------------------------
     from repository.ext.db import init_app as init_db
+
     init_db(app)
 
     # Registro dos modelos no metadata do SQLAlchemy
     from repository.ext.db import register_models
+
     register_models()
 
     # ----------------------------------------------------------
@@ -33,15 +36,18 @@ def create_app(test_config=None):
     # ----------------------------------------------------------
     if not app.config.get("TESTING"):
         from repository.ext.wtf import init_app as init_wtf
+
         init_wtf(app)
 
     from repository.ext.debugtoolbar import init_app as init_toolbar
+
     init_toolbar(app)
 
     # ----------------------------------------------------------
     # Blueprints (camada de apresentacao)
     # ----------------------------------------------------------
     from repository.views import init_app as init_site
+
     init_site(app)
 
     return app

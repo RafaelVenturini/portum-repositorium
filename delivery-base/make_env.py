@@ -2,7 +2,7 @@ import os
 
 # Script PowerShell como uma string
 
-powershell_script = '''
+powershell_script = """
 
 if (-Not (Test-Path "venv")) {
     py -m venv venv
@@ -15,7 +15,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
 py -m pip install --upgrade pip
 pip install invoke dotenv
 
-'''
+"""
 
 
 # Salva o script em um arquivo temporário

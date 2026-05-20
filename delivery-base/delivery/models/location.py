@@ -7,18 +7,14 @@ if TYPE_CHECKING:
     from .user import User
     from .business import Business
 
+
 # === City (cidade) ===
 class City(db.Model):
     __tablename__ = "cities"
 
     __table_args__ = (
-        Index(
-            "idx_city_name_state_country",
-            "name",
-            "state",
-            "country"
-        ),
-        {'extend_existing': True}
+        Index("idx_city_name_state_country", "name", "state", "country"),
+        {"extend_existing": True},
     )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -27,10 +23,7 @@ class City(db.Model):
     country: Mapped[Optional[str]] = mapped_column(String(50))
     region: Mapped[Optional[str]] = mapped_column(String(50))
 
-    addresses: Mapped[List["Address"]] = relationship(
-        "Address",
-        back_populates="city"
-    )
+    addresses: Mapped[List["Address"]] = relationship("Address", back_populates="city")
 
     def __repr__(self) -> str:
         return f"<City {self.name}{' - ' + self.state if self.state else ''}>"
@@ -39,7 +32,7 @@ class City(db.Model):
 # === Address (endereco) ===
 class Address(db.Model):
     __tablename__ = "address"
-    __table_args__ = {'extend_existing': True}
+    __table_args__ = {"extend_existing": True}
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     road: Mapped[Optional[str]] = mapped_column(String(100))
@@ -52,7 +45,7 @@ class Address(db.Model):
         Integer,
         ForeignKey("users.id", ondelete="CASCADE"),
         nullable=True,
-        index=True
+        index=True,
     )
 
     # Nova FK para vincular à empresa
@@ -60,13 +53,11 @@ class Address(db.Model):
         Integer,
         ForeignKey("businesses.id", ondelete="CASCADE"),
         nullable=True,
-        index=True
+        index=True,
     )
 
     city_id: Mapped[int | None] = mapped_column(
-        Integer,
-        ForeignKey("cities.id", ondelete="SET NULL"),
-        nullable=True
+        Integer, ForeignKey("cities.id", ondelete="SET NULL"), nullable=True
     )
 
     # Relacionamentos

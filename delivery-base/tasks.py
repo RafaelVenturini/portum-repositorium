@@ -107,13 +107,7 @@ def zip(c, name=None):
 
     print(f"→ Criando ZIP: {zip_path}")
 
-    excludes = [
-        "venv",
-        "__pycache__",
-        ".git",
-        ".vscode",
-        "delivery.egg-info"
-    ]
+    excludes = ["venv", "__pycache__", ".git", ".vscode", "delivery.egg-info"]
 
     with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zipf:
         for root, dirs, files in os.walk("."):

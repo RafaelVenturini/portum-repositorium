@@ -8,10 +8,11 @@ if TYPE_CHECKING:
     from .role_user import RoleUser
     from .location import Address
 
+
 # === User (usuario) ===
 class User(db.Model):
     __tablename__ = "users"
-    __table_args__ = {'extend_existing': True}
+    __table_args__ = {"extend_existing": True}
 
     id: Mapped[int] = mapped_column(db.Integer, primary_key=True)
     name: Mapped[str] = mapped_column(db.String(100), index=True)
@@ -25,21 +26,14 @@ class User(db.Model):
     cpf: Mapped[Optional[str]] = mapped_column(db.String(15), index=True)
 
     created_at: Mapped[datetime] = mapped_column(
-        db.DateTime(timezone=True), 
-        server_default=func.now()
+        db.DateTime(timezone=True), server_default=func.now()
     )
 
     updated_at: Mapped[Optional[datetime]] = mapped_column(
-        db.DateTime(timezone=True), 
-        onupdate=func.now()
+        db.DateTime(timezone=True), onupdate=func.now()
     )
 
-    is_active: Mapped[bool] = mapped_column(
-        db.Boolean,
-        default=True,
-        nullable=False,
-        index=True
-    )
+    is_active: Mapped[bool] = mapped_column(db.Boolean, default=True, nullable=False, index=True)
 
     role_associations: Mapped[List["RoleUser"]] = relationship(
         "RoleUser",
@@ -48,9 +42,7 @@ class User(db.Model):
     )
 
     addresses: Mapped[List["Address"]] = relationship(
-        "Address",
-        back_populates="user",
-        cascade="all, delete-orphan"
+        "Address", back_populates="user", cascade="all, delete-orphan"
     )
 
     @property

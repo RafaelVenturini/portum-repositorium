@@ -2,7 +2,9 @@
 Views representam a camada de apresentacao da aplicacao.
 Responsaveis por definir rotas e retornar respostas HTTP ao cliente.
 """
+
 from delivery.views.main import bp_main
+
 
 def init_app(app):
     """

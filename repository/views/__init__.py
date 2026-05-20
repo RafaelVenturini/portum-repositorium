@@ -2,6 +2,7 @@
 Views representam a camada de apresentacao da aplicacao.
 Responsaveis por definir rotas e retornar respostas HTTP ao cliente.
 """
+
 from repository.views.main import bp_main
 
 

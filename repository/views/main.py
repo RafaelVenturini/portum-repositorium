@@ -1,14 +1,16 @@
 from flask import Blueprint, render_template, current_app
+
 # from repository.forms.main import NewsLetterForm
 
 bp_main = Blueprint("main", __name__)
 
 
-@bp_main.route('/')
-@bp_main.route('/index')
+@bp_main.route("/")
+@bp_main.route("/index")
 def index():
     current_app.logger.debug("Renderizando template index.html")
-    return render_template('main/index.html')
+    return render_template("main/index.html")
+
 
 # @bp_main.route('/carrinho')
 # def carrinho():
@@ -37,5 +39,5 @@ def index():
 #         return redirect(url_for('main.index'))
 #     else:
 #         print(form.errors)
-    
+
 #     return render_template('main/contato.html', form=form)

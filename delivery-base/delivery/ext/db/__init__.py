@@ -2,8 +2,10 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+
 def init_app(app):
     db.init_app(app)
+
 
 def register_models():
     """
@@ -17,4 +19,5 @@ def register_models():
     import delivery.models.business_type
     import delivery.models.role_user
     import delivery.models.location
-    #import delivery.models.order
+
+    # import delivery.models.order

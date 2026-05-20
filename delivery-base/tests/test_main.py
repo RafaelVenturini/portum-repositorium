@@ -1,21 +1,23 @@
 import pytest
 from delivery import create_app
 
-
 # =============================================================================
 # FIXTURES (infraestrutura de teste)
 # =============================================================================
+
 
 @pytest.fixture
 def app():
     """
     Cria uma instancia da aplicacao configurada para testes.
     """
-    return create_app({
-        "TESTING": True,
-        "SECRET_KEY": "test-key",
-        "WTF_CSRF_ENABLED": False,
-    })
+    return create_app(
+        {
+            "TESTING": True,
+            "SECRET_KEY": "test-key",
+            "WTF_CSRF_ENABLED": False,
+        }
+    )
 
 
 @pytest.fixture
@@ -29,6 +31,7 @@ def client(app):
 # =============================================================================
 # TESTES DE INFRAESTRUTURA
 # =============================================================================
+
 
 def test_app_is_created(app):
     """
@@ -55,6 +58,7 @@ def test_app_is_running_in_test_mode(app):
 # TESTES DE ROTAS
 # =============================================================================
 
+
 def test_non_existent_route_returns_404(client):
     """
     Rotas inexistentes devem retornar HTTP 404.
@@ -68,8 +72,8 @@ def test_non_existent_route_returns_404(client):
 # -----------------------------------------------------------------------------
 
 PUBLIC_ROUTES = [
-    ("/",         True),
-    ("/contato",  True),
+    ("/", True),
+    ("/contato", True),
     ("/carrinho", True),
 ]
 
@@ -85,28 +89,26 @@ def test_public_routes_return_200_in_html(client, route, check_doctype):
     """
     response = client.get(route)
 
-    assert response.status_code == 200, \
-        f"Rota {route} retornou {response.status_code}"
+    assert response.status_code == 200, f"Rota {route} retornou {response.status_code}"
 
     assert (
-        b"<html" in response.data or
-        b"<!DOCTYPE html>" in response.data
+        b"<html" in response.data or b"<!DOCTYPE html>" in response.data
     ), f"Rota {route} nao parece retornar HTML"
 
     if check_doctype:
-        assert b"<!DOCTYPE html>" in response.data, \
-            f"Rota {route} deveria conter DOCTYPE html"
+        assert b"<!DOCTYPE html>" in response.data, f"Rota {route} deveria conter DOCTYPE html"
 
 
 # =============================================================================
 # TESTES DE CONTEUDO
 # =============================================================================
 
+
 def test_index_page(client):
     """
     Verifica conteudo minimo da pagina inicial.
     """
-    response = client.get('/')
+    response = client.get("/")
     assert response.status_code == 200
     assert b"Delivery UVV" in response.data
 
@@ -115,6 +117,7 @@ def test_index_page(client):
 # TESTES DE FORMULARIO
 # =============================================================================
 
+
 def test_contato_form(client):
     """
     Testa o fluxo completo de envio de formulario valido:
@@ -122,14 +125,14 @@ def test_contato_form(client):
     - espera redirecionamento (302)
     """
     response = client.post(
-        '/contato',
+        "/contato",
         data={
             "nome": "Teste Aluno",
             "email": "teste@uvv.com",
             "mensagem": "Mensagem de teste para validacao",
-            "submit": "Enviar Mensagem"
+            "submit": "Enviar Mensagem",
         },
-        content_type="application/x-www-form-urlencoded"
+        content_type="application/x-www-form-urlencoded",
     )
 
     assert response.status_code == 302  # redirect apos sucesso

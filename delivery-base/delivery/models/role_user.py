@@ -11,43 +11,33 @@ if TYPE_CHECKING:
     from .business import Business
     from .level import Level
 
+
 # === Associacao entre usuario, papel e empresa ===
 class RoleUser(db.Model):
     __tablename__ = "roles_has_users"
     __table_args__ = (
-        UniqueConstraint(
-            "user_id",
-            "role_id",
-            "business_id",
-            name="uq_user_role_business"
-        ),
-        {'extend_existing': True}
+        UniqueConstraint("user_id", "role_id", "business_id", name="uq_user_role_business"),
+        {"extend_existing": True},
     )
 
     id: Mapped[int] = mapped_column(db.Integer, primary_key=True)
     role_id: Mapped[int] = mapped_column(db.ForeignKey("roles.id"), nullable=False, index=True)
     user_id: Mapped[int] = mapped_column(db.ForeignKey("users.id"), nullable=False, index=True)
-    business_id: Mapped[Optional[int]] = mapped_column(db.ForeignKey("businesses.id"), nullable=True, index=True)
+    business_id: Mapped[Optional[int]] = mapped_column(
+        db.ForeignKey("businesses.id"), nullable=True, index=True
+    )
     level_id: Mapped[Optional[int]] = mapped_column(db.ForeignKey("levels.id"), nullable=True)
-    created_at: Mapped[datetime] = mapped_column(db.DateTime(timezone=True), server_default=func.now(), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(
+        db.DateTime(timezone=True), server_default=func.now(), nullable=False
+    )
     finished_at: Mapped[Optional[datetime]] = mapped_column(db.DateTime(timezone=True))
 
-    role: Mapped["Role"] = relationship(
-        "Role",
-        back_populates="role_associations"
-    )
-    user: Mapped["User"] = relationship(
-        "User",
-        back_populates="role_associations"
-    )
+    role: Mapped["Role"] = relationship("Role", back_populates="role_associations")
+    user: Mapped["User"] = relationship("User", back_populates="role_associations")
     business: Mapped[Optional["Business"]] = relationship(
-        "Business",
-        back_populates="role_associations"
+        "Business", back_populates="role_associations"
     )
-    level: Mapped[Optional["Level"]] = relationship(
-        "Level",
-        back_populates="role_associations"
-    )
+    level: Mapped[Optional["Level"]] = relationship("Level", back_populates="role_associations")
 
     def __repr__(self) -> str:
         return (

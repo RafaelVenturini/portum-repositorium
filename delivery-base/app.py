@@ -1,6 +1,7 @@
 import logging
 from flask import Flask
 
+
 def create_app(test_config=None):
     app = Flask(__name__)
     # Configuracao recomendada para desenvolvimento:
@@ -12,8 +13,9 @@ def create_app(test_config=None):
     # Configuracao da aplicacao (variaveis de ambiente)
     # ----------------------------------------------------------
     from delivery.ext.config import init_app as init_config
+
     init_config(app)
-    
+
     if test_config:
         app.config.update(test_config)
 
@@ -21,10 +23,12 @@ def create_app(test_config=None):
     # Inicializacao do banco de dados
     # ----------------------------------------------------------
     from delivery.ext.db import init_app as init_db
+
     init_db(app)
 
     # Registro dos modelos no metadata do SQLAlchemy
     from delivery.ext.db import register_models
+
     register_models()
 
     # ----------------------------------------------------------
@@ -32,15 +36,18 @@ def create_app(test_config=None):
     # ----------------------------------------------------------
     if not app.config.get("TESTING"):
         from delivery.ext.wtf import init_app as init_wtf
+
         init_wtf(app)
 
     from delivery.ext.debugtoolbar import init_app as init_toolbar
+
     init_toolbar(app)
 
     # ----------------------------------------------------------
     # Blueprints (camada de apresentacao)
     # ----------------------------------------------------------
     from delivery.views import init_app as init_site
+
     init_site(app)
-    
+
     return app

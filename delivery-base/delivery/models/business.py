@@ -10,21 +10,24 @@ if TYPE_CHECKING:
     from .business_type import BusinessType
     from .location import Address
 
+
 # === Business (empresa / estabelecimento) ===
 class Business(db.Model):
     __tablename__ = "businesses"
-    __table_args__ = {'extend_existing': True}
+    __table_args__ = {"extend_existing": True}
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     owner_user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False, index=True)
     corporate_name: Mapped[str] = mapped_column(String(120), nullable=False)
     trade_name: Mapped[str] = mapped_column(String(120), nullable=False, index=True)
     cnpj: Mapped[str] = mapped_column(String(20), unique=True, nullable=False, index=True)
-    business_type_id: Mapped[int] = mapped_column(ForeignKey("business_types.id"), nullable=False, index=True)
+    business_type_id: Mapped[int] = mapped_column(
+        ForeignKey("business_types.id"), nullable=False, index=True
+    )
     description: Mapped[Optional[str]] = mapped_column(String(255))
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False, index=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
-    
+
     # Relacionamento com o Proprietário
     owner: Mapped["User"] = relationship("User")
 
@@ -34,18 +37,15 @@ class Business(db.Model):
         "Address",
         back_populates="business",
         cascade="all, delete-orphan",
-        uselist=False
+        uselist=False,
     )
 
     role_associations: Mapped[List["RoleUser"]] = relationship(
-        "RoleUser",
-        back_populates="business",
-        cascade="all, delete-orphan"
+        "RoleUser", back_populates="business", cascade="all, delete-orphan"
     )
 
     business_type: Mapped["BusinessType"] = relationship(
-        "BusinessType",
-        back_populates="businesses"
+        "BusinessType", back_populates="businesses"
     )
 
     def __repr__(self) -> str:

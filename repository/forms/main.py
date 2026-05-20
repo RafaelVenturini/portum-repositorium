@@ -4,5 +4,5 @@ from wtforms.validators import DataRequired, Email
 
 
 class NewsLetterForm(FlaskForm):
-    email = EmailField('E-mail', validators=[DataRequired(), Email()])
-    submit = SubmitField('Enviar Mensagem')
+    email = EmailField("E-mail", validators=[DataRequired(), Email()])
+    submit = SubmitField("Enviar Mensagem")
