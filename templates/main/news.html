@@ -1,0 +1,14 @@
+{% extends "main/base.html" %}
+
+{% block title %}Noticias coletadas{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1 class="title">Noticias coletadas</h1>
+        <p class="subtitle">Itens armazenados no banco SQLite interno.</p>
+
+        {% include "main/partials/article_cards.html" %}
+    </div>
+</section>
+{% endblock %}

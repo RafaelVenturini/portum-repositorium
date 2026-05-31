@@ -1,0 +1,32 @@
+{% extends "main/base.html" %}
+
+{% block title %}Noticias do Porto Central{% endblock %}
+
+{% block content %}
+<section class="hero is-info">
+    <div class="hero-body">
+        <div class="container">
+            <p class="title">Portum Repositorium</p>
+            <p class="subtitle">Repositorio local de noticias coletadas sobre o Porto Central.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="level">
+            <div class="level-left">
+                <div>
+                    <h1 class="title is-4">Ultimas noticias coletadas</h1>
+                    <p class="subtitle is-6">Fonte inicial: Porto Central</p>
+                </div>
+            </div>
+            <div class="level-right">
+                <a class="button is-link is-light" href="{{ url_for('main.news') }}">Ver todas</a>
+            </div>
+        </div>
+
+        {% include "main/partials/article_cards.html" %}
+    </div>
+</section>
+{% endblock %}

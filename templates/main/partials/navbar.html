@@ -1,8 +1,14 @@
-<nav>
-  <div>
-    <a href="/">Home</a>
-    <a href="/news">Noticias</a>
-    <a href="/about">Sobre este Repositório</a>
+<nav class="navbar is-white has-shadow" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item has-text-weight-semibold" href="{{ url_for('main.index') }}">
+      Portum Repositorium
+    </a>
   </div>
-  <button>Quer receber noticias sobre o Porto Central?</button>
+
+  <div class="navbar-menu is-active">
+    <div class="navbar-start">
+      <a class="navbar-item" href="{{ url_for('main.index') }}">Home</a>
+      <a class="navbar-item" href="{{ url_for('main.news') }}">Noticias</a>
+    </div>
+  </div>
 </nav>

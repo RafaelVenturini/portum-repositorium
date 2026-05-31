@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Portum Repositorium{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/global.css') }}">
+    {% block css %}{% endblock %}
+    {% endblock %}
+</head>
+<body>
+    <header>
+        {% block navbar %}
+        {% include 'main/partials/navbar.html' %}
+        {% endblock %}
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="content has-text-centered">
+        {% block footer %}
+            {% include 'main/partials/footer.html' %}
+        {% endblock %}
+        </div>
+    </footer>
+</body>
+</html>

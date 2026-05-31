@@ -26,9 +26,9 @@
 ## Scrapping
 
 - [ ] Fonts
-  - [ ] Central port oficial site
-    - [ ] <https://www.portocentral.com.br/wp-json/wp/v2/posts>
-    - [ ] <https://www.portocentral.com.br/wp-json/>
+  - [x] Central port oficial site
+    - [x] <https://www.portocentral.com.br/wp-json/wp/v2/posts>
+    - [x] <https://www.portocentral.com.br/wp-json/>
   - [ ] Globo News
   - [ ] A Gazeta
 - [ ] key-words
@@ -56,11 +56,11 @@
 
 ## Necessities
 
-- [ ] CLI
-  - [ ] Database
-    - [ ] Create
-    - [ ] Populate
-    - [ ] Destroy
+- [x] CLI
+  - [x] Database
+    - [x] Create
+    - [x] Populate
+    - [x] Destroy
   - [ ] Tests
     - [ ] Direct fetch is working
     - [ ] Beautiful soup is working
