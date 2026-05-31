@@ -12,11 +12,8 @@ def register_models():
     Importa todos os modulos que definem modelos para que sejam registrados
     no metadata do SQLAlchemy antes de operacoes como create_all().
     """
-    import delivery.models.role
-    import delivery.models.user
-    import delivery.models.level
-    import delivery.models.business
-    import delivery.models.business_type
-    import delivery.models.role_user
-    import delivery.models.location
-    import delivery.models.order
+    import repository.models.article_tags
+    import repository.models.articles
+    import repository.models.authors
+    import repository.models.tags
+    import repository.models.newsletter

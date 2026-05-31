@@ -43,6 +43,10 @@ def create_app(test_config=None):
 
     init_toolbar(app)
 
+    from repository.ext.cli import init_app as init_cli
+
+    init_cli(app)
+
     # ----------------------------------------------------------
     # Blueprints (camada de apresentacao)
     # ----------------------------------------------------------

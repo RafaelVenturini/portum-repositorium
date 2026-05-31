@@ -27,12 +27,21 @@
 
 - [ ] Fonts
   - [ ] Central port oficial site
+    - [ ] <https://www.portocentral.com.br/wp-json/wp/v2/posts>
+    - [ ] <https://www.portocentral.com.br/wp-json/>
   - [ ] Globo News
   - [ ] A Gazeta
 - [ ] key-words
   - [ ] Porto Central
   - [ ] Central Port
   - [ ] Presidente Kennedy
+
+### Things to search
+
+- RSS
+  - Aparentemente uma forma permissiva de fazer o scrap, sem dar probleminhas rs
+- robots.txt
+  - Meu maior inimigo, burlar isso com playwright bem configurado (botar tamanho de tela real, opções comuns de browser essas coisas)
 
 ## UI
 
@@ -44,4 +53,15 @@
 - [ ] About
   - [ ] Explain the UVV project
   - [ ] Explain about the differences of ports in Brazil
-- [ ]
+
+## Necessities
+
+- [ ] CLI
+  - [ ] Database
+    - [ ] Create
+    - [ ] Populate
+    - [ ] Destroy
+  - [ ] Tests
+    - [ ] Direct fetch is working
+    - [ ] Beautiful soup is working
+    - [ ] Playwright is working

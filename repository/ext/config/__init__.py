@@ -7,6 +7,7 @@ def init_app(app):
 
     app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
     app.config["DEBUG"] = os.environ.get("FLASK_DEBUG") == "1"
+    app.config["TESTING"] = os.environ.get("IS_TEST") == "1"
 
     app.config["MAIL_SERVER"] = os.environ.get("MAIL_SERVER")
     app.config["MAIL_PORT"] = os.environ.get("MAIL_PORT")
@@ -15,7 +16,9 @@ def init_app(app):
     app.config["MAIL_PASSWORD"] = os.environ.get("MAIL_PASSWORD")
     app.config["MAIL_DEFAULT_SENDER"] = os.environ.get("MAIL_DEFAULT_SENDER")
 
-    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL", "sqlite:///delivery.db")
+    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
+        "DATABASE_URL", "sqlite:///delivery.db"
+    )
 
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
