@@ -1,0 +1,21 @@
+{% extends "main/base.html" %}
+
+{% block title %}Newsletter{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container is-max-desktop">
+        <h1 class="is-size-1">Gostou do repositório?</h1>
+        <h2 class="is-size-3">Quer acompanhar mais noticias sobre o Porto Central de Presidente Kennedy?</h2>
+        <p class="is-size-5">Assine nossa newsletter para receber as últimas notícias e atualizações diretamente no
+            seu e-mail!</p>
+
+        <form>
+            <label>
+                <input class="input" type="email" placeholder="Digite seu e-mail">
+            </label>
+            <button class="button is-primary mt-2">Assinar Newsletter</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

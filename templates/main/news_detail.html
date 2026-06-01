@@ -18,14 +18,14 @@
 
             <div class="box article-meta">
                 <p><strong>Fonte:</strong> {{ article.source_name }}</p>
-                <p><strong>Autor:</strong> {{ article.author.name if article.author else "Nao informado" }}</p>
                 <p><strong>Publicado em:</strong> {{ article.published_at.strftime("%d/%m/%Y %H:%M") }}</p>
+                <p><strong>Autor:</strong> {{ article.author.name if article.author else "Nao informado" }}</p>
                 <p><strong>Atualizado em:</strong> {{ article.updated_at.strftime("%d/%m/%Y %H:%M") if article.updated_at else "Nao informado" }}</p>
-                <p><strong>Coletado em:</strong> {{ article.scrapped_at.strftime("%d/%m/%Y %H:%M") }}</p>
                 <p><a href="{{ article.url }}" target="_blank" rel="noopener">Abrir noticia original</a></p>
+                <p><strong>Coletado em:</strong> {{ article.scrapped_at.strftime("%d/%m/%Y %H:%M") }}</p>
             </div>
 
-            <div class="notification is-light">
+            <div class="notification ">
                 {{ article.html_content | safe }}
             </div>
         </article>
