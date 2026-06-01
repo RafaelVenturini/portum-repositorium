@@ -1,12 +1,5 @@
 import click
 from repository.ext.db import db
-from repository.models import (
-    Article_tags,
-    Articles,
-    Authors,
-    Newsletter,
-    Tags,
-)
 
 
 def init_app(app):
@@ -14,7 +7,6 @@ def init_app(app):
     @app.cli.command("create-db")
     def create_db():
         """Cria as tabelas do db."""
-        import repository.models
 
         db.create_all()
         click.echo("Banco de dados criado com sucesso!")
@@ -22,7 +14,6 @@ def init_app(app):
     @app.cli.command("drop-db")
     def drop_db():
         """Remove todas as tabelas do db."""
-        import repository.models
 
         db.drop_all()
         click.echo("Banco de dados removido com sucesso!")
@@ -41,7 +32,7 @@ def init_app(app):
     )
     def scrape_news(limit, page, order):
         """Busca noticias do Porto Central e salva no SQLite."""
-        from repository.services.porto_central_scraper import (
+        from repository.services.scrappers.porto_central import (
             save_articles,
             scrape_porto_central,
         )

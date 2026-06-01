@@ -1,4 +1,5 @@
 import os
+
 from dotenv import load_dotenv
 
 
@@ -17,7 +18,7 @@ def init_app(app):
     app.config["MAIL_DEFAULT_SENDER"] = os.environ.get("MAIL_DEFAULT_SENDER")
 
     app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
-        "DATABASE_URL", "sqlite:///delivery.db"
+        "DATABASE_URL", "sqlite:///repository.db"
     )
 
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
