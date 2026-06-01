@@ -23,6 +23,13 @@
 
 -[ ] article_tags
 
+
+
+- UTILITYS 
+  - [ ] transformar todas as funções genericas de scraper.porto_central em funções reutilizaveis, a fim de reaproveita-las quando for puxar de novos sites
+  - [ ] fazer um sistema de tageamento nos artigos
+  - [ ] criar a newsletter com base no tageamento (só avisar a pessoa sobre as noticias que ela se inscreveu)
+
 ## Scrapping
 
 - [ ] Fonts
@@ -65,3 +72,5 @@
     - [ ] Direct fetch is working
     - [ ] Beautiful soup is working
     - [ ] Playwright is working
+
+  
