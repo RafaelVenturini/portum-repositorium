@@ -2,7 +2,6 @@ import pytest
 
 from repository import create_app
 
-
 # =============================================================================
 # FIXTURES (infraestrutura de teste)
 # =============================================================================
@@ -95,12 +94,12 @@ def test_public_routes_return_200_in_html(client, route, check_doctype):
     assert response.status_code == 200, f"Rota {route} retornou {response.status_code}"
 
     assert (
-            b"<html" in response.data or b"<!DOCTYPE html>" in response.data
+        b"<html" in response.data or b"<!DOCTYPE html>" in response.data
     ), f"Rota {route} nao parece retornar HTML"
 
     if check_doctype:
         assert (
-                b"<!DOCTYPE html>" in response.data
+            b"<!DOCTYPE html>" in response.data
         ), f"Rota {route} deveria conter DOCTYPE html"
 
 
@@ -115,7 +114,7 @@ def test_index_page(client):
     """
     response = client.get("/")
     assert response.status_code == 200
-    assert b"Delivery UVV" in response.data
+    assert b"Feito por: Rafael Venturini" in response.data
 
 
 # =============================================================================
@@ -123,19 +122,17 @@ def test_index_page(client):
 # =============================================================================
 
 
-def test_contato_form(client):
+def test_newsletter_form(client):
     """
     Testa o fluxo completo de envio de formulario valido:
     - POST com dados corretos
     - espera redirecionamento (302)
     """
     response = client.post(
-        "/contato",
+        "/newsletter",
         data={
-            "nome": "Teste Aluno",
             "email": "teste@uvv.com",
-            "mensagem": "Mensagem de teste para validacao",
-            "submit": "Enviar Mensagem",
+            "submit": "Assinar Newsletter",
         },
         content_type="application/x-www-form-urlencoded",
     )

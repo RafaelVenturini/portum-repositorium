@@ -1,6 +1,15 @@
-from flask import Blueprint, abort, current_app, render_template
+from flask import (
+    Blueprint,
+    abort,
+    current_app,
+    render_template,
+    flash,
+    redirect,
+    url_for,
+)
 
 from repository.ext.db import db
+from repository.forms.main import NewsLetterForm
 from repository.models import Articles
 
 # from repository.forms.main import NewsLetterForm
@@ -32,7 +41,16 @@ def news_detail(article_id):
     return render_template("main/news_detail.html", article=article)
 
 
-@bp_main.route("/newsletter")
+@bp_main.route("/newsletter", methods=["GET", "POST"])
 def newsletter():
+    form = NewsLetterForm()
     current_app.logger.debug("Renderizando template newsletter.html")
-    return render_template("main/newsletter.html")
+
+    if form.validate_on_submit():
+        current_app.logger.info(f"Mensagem recebida do {form.email.data}")
+        flash("Mensagem enviada com sucesso!", "success")
+        return redirect(url_for("main.index"))
+    else:
+        print(form.errors)
+
+    return render_template("main/newsletter.html", form=form)
