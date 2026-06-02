@@ -7,10 +7,11 @@ from flask import (
     redirect,
     url_for,
 )
+from sqlalchemy.orm import joinedload
 
 from repository.ext.db import db
 from repository.forms.main import NewsLetterForm
-from repository.models import Articles
+from repository.models import Articles, Article_tags
 
 # from repository.forms.main import NewsLetterForm
 
@@ -28,7 +29,14 @@ def index():
 @bp_main.route("/news")
 def news():
     current_app.logger.debug("Renderizando template news.html")
-    articles = Articles.query.order_by(Articles.published_at.desc()).all()
+    articles = (
+        Articles.query.options(
+            joinedload(Articles.article_tags).joinedload(Article_tags.tag)
+        )
+        .order_by(Articles.published_at.desc())
+        .all()
+    )
+
     return render_template("main/news.html", articles=articles)
 
 

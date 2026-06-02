@@ -4,11 +4,21 @@
     <div class="column is-one-third-desktop is-half-tablet">
         <a class="card article-card" href="{{ url_for('main.news_detail', article_id=article.id) }}">
             <div class="card-content">
-                <p class="title is-5">{{ article.title }}</p>
-                <p class="subtitle is-6">{{ article.source_name }}</p>
+                <div>
+
+                    <p class="title is-5">{{ article.title }}</p>
+                    <p class="subtitle is-6">{{ article.source_name }}</p>
+                </div>
+                <div>
                     <time datetime="{{ article.published_at.isoformat() }}">
                         {{ article.published_at.strftime("%d/%m/%Y") }}
                     </time>
+                    <ul>
+                        {% for at in article.article_tags%}
+                        <li class="tag">{{ at.tag.name }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
         </a>
     </div>
