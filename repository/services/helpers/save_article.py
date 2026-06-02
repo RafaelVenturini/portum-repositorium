@@ -5,9 +5,10 @@ from typing import Iterable
 from urllib.parse import urlparse
 
 from repository.ext.db import db
-from repository.models import Articles
+from repository.models import Articles, Article_tags, Tags
 from repository.services.helpers.get_author import get_author
 from repository.services.helpers.scrapped_article import ScrapedArticle
+from repository.services.helpers.tagger import tag_news
 
 
 class TextExtractor(HTMLParser):
@@ -32,6 +33,7 @@ def save_articles(articles: Iterable[ScrapedArticle]) -> tuple[int, int]:
     for item in articles:
         author = get_author(item, now)
         article = Articles.query.filter_by(news_id=item.news_id).first()
+        tags = tag_news(item.title, item.html_content)
 
         if article is None:
             article = Articles(
@@ -45,7 +47,12 @@ def save_articles(articles: Iterable[ScrapedArticle]) -> tuple[int, int]:
                 url=item.url,
                 author_id=author.id,
             )
+
             db.session.add(article)
+            for tag in tags:
+                tag_id = Tags.query.filter_by(name=tag).first().id
+                article_tags = Article_tags(article_id=article.id, tag_id=tag_id)
+                db.session.add(article_tags)
             created += 1
             continue
 
@@ -57,6 +64,17 @@ def save_articles(articles: Iterable[ScrapedArticle]) -> tuple[int, int]:
         article.scrapped_at = now
         article.url = item.url
         article.author = author
+
+        for tag in tags:
+            tag_id = Tags.query.filter_by(name=tag).first().id
+            tag_exists = Article_tags.query.filter_by(
+                article_id=article.id, tag_id=tag_id
+            ).first()
+            if tag_exists:
+                continue
+            article_tags = Article_tags(article_id=article.id, tag_id=tag_id)
+            db.session.add(article_tags)
+
         updated += 1
 
     db.session.commit()
