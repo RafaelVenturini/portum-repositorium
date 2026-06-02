@@ -9,7 +9,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "delivery"
 # major (mudanca grande), minor (versao trabalhada), patch (correcao bug)
-version = "0.2.0"
+version = "0.2.1"
 description = "A web platform for managing food delivery orders and restaurant operations."
 readme = "README.md"
 requires-python = ">=3.9"
