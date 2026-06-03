@@ -20,9 +20,17 @@
                 <p><strong>Fonte:</strong> {{ article.source_name }}</p>
                 <p><strong>Publicado em:</strong> {{ article.published_at.strftime("%d/%m/%Y %H:%M") }}</p>
                 <p><strong>Autor:</strong> {{ article.author.name if article.author else "Nao informado" }}</p>
-                <p><strong>Atualizado em:</strong> {{ article.updated_at.strftime("%d/%m/%Y %H:%M") if article.updated_at else "Nao informado" }}</p>
+                <p><strong>Atualizado em:</strong> {{ article.updated_at.strftime("%d/%m/%Y %H:%M") if
+                    article.updated_at else "Nao informado" }}</p>
                 <p><a href="{{ article.url }}" target="_blank" rel="noopener">Abrir noticia original</a></p>
                 <p><strong>Coletado em:</strong> {{ article.scrapped_at.strftime("%d/%m/%Y %H:%M") }}</p>
+                <div>
+                    <ul>
+                        {% for at in article.article_tags%}
+                        <a class="tag" href="/tags/{{at.tag.id}}">{{ at.tag.name }}</a>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
 
             <div class="notification ">

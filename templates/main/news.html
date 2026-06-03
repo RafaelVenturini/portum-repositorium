@@ -5,9 +5,23 @@
 {% block content %}
 <section class="section">
     <div class="container">
+        {% block title_txt %}
+        {% if tag and tag.name %}
+        <h1 class="title">Noticias coletadas pela tag: {{ tag.name }}</h1>
+        {% else %}
         <h1 class="title">Noticias coletadas</h1>
+        {% endif %}
+        {% endblock %}
+        {% block subtitle %}
+        {% if tag and tag.name %}
+        <p class="subtitle">
+            As noticias foram declaradas com essa tag por ter alguma das palavras chaves escolhidas. veja mais sobre <a
+                href='/about#tags'>aqui</a>
+        </p>
+        {% else %}
         <p class="subtitle">Itens armazenados no banco SQLite interno.</p>
-
+        {% endif %}
+        {% endblock %}
         {% include "main/partials/article_cards.html" %}
     </div>
 </section>

@@ -1,0 +1,111 @@
+{% extends "main/base.html" %}
+
+{% block title %}Sobre o Projeto{% endblock %}
+
+{% block content %}
+<section class="section has-background-light">
+
+    <div class="container box content">
+        <h1 class="title is-2 has-text-link has-text-centered mb-6">Sobre o Projeto</h1>
+        <h2 class="title is-4 has-text-info mt-6">Proposta inicial</h2>
+        <p>Esse projeto é um trabalho academico, da materia de Web Avançado, com o professor Wanderson Muniz de
+            Santana.
+            Onde os
+            alunos foram livres para criar do zero um projeto fullstack, utilizando algumas tecnologias já pré
+            definidas.</p>
+        <p></p>
+        <h2 class="title is-4 has-text-info mt-6">Stack</h2>
+        <p>O projeto atualmente possui poucas libs, mostrando que com pouco ferramental ainda dá pra fazer um bom
+            trabalho. As libs utilizadas são:</p>
+
+        <ul class="ml-4">
+
+            <li>Flask</li>
+
+            <li>SQLAlchemy</li>
+
+            <li>Playwright</li>
+
+            <li>Beautiful Soup 4</li>
+
+            <li>Flask-WTF</li>
+
+        </ul>
+        <h2 class="title is-4 has-text-info mt-6">Criadores</h2>
+        <p>O projeto foi criado por apenas um integrante, <a class="has-text-weight-semibold"
+
+                                                             href="https://www.linkedin.com/in/rafael-venturini-dipalma/">Rafael
+            Venturini Dipalma</a></p>
+        <h2 class="title is-4 has-text-info mt-6">Sobre o funcionamento geral do Projeto</h2>
+        <p>O Projeto atualmente se baseia em um webscraper de dados sobre o Porto Central, usando ferramentas
+            como
+            Playwright, Beautiful Soup 4 e requests diretos à sites que dizem sobre o assunto.</p>
+        <h3 class="subtitle is-5 has-text-weight-bold has-text-grey-dark mt-5">O Scraper</h3>
+        <p>O Projeto atualmente coleta dados dos seguintes sites:</p>
+
+        <ul class="ml-4">
+
+            <li><a class="has-text-weight-semibold" href="https://www.portocentral.pt/"><b>Porto Central</b></a>: Coleta
+                direta pela api do Word Press
+
+            </li>
+
+        </ul>
+        <h3 class="subtitle is-5 has-text-weight-bold has-text-grey-dark mt-5">Tags</h3>
+        <p>As tags funcionam a partir de palavras chaves, seu objetivo é tentar trazer uma organização ao site,
+            permitindo facilmente encontrar informações ou temas desejados.</p>
+        <p>Hoje o site opera com a seguinte lógica:</p>
+
+        <ul class="ml-4">
+
+            <li><b>Educação</b></li>
+            : ifes, ufes, escola, educação, ensino, aluno, alunos, universidade, capacitação, treinamento,
+            curso,
+            formação, aprendizagem, estudante, pesquisa, pesquisador
+
+            <li><b>Meio Ambiente</b></li>
+            : meio ambiente, ambiental, sustentabilidade, sustentável, licenciamento ambiental, ibama, iema,
+            fauna,
+            flora, manguezal, ecossistema, preservação, conservação, compensação ambiental, monitoramento
+            ambiental,
+            carbono, emissões, biodiversidade
+
+            <li><b>Impacto Social</b></li>
+            : comunidade, impacto social, cidadania, inclusão, qualidade de vida, moradores, famílias,
+            mulheres,
+            feminino, juventude, social, desenvolvimento humano, projeto social, responsabilidade social
+
+            <li><b>Economia</b></li>
+            : economia emprego, empregos, renda, desenvolvimento, desenvolvimento econômico, socioeconômico,
+            investimento, investimentos, mercado, negócios, crescimento, arrecadação, tributos, receita
+
+            <li><b>Infraestrutura</b></li>
+            : obra, obras, construção, infraestrutura, terminal, porto, cais, dragagem, acesso viário,
+            rodovia,
+            ferrovia, berço de atracação, expansão, implantação,
+
+            <li><b>Logística</b></li>
+            : logística, transporte, carga, cargas, exportação, importação, armazenagem, escoamento, cadeia
+            logística,
+            terminal logístico, granéis, contêineres, navio, navegação
+
+            <li><b>Energia</b></li>
+            : energia , petróleo , gás natural , gnl , combustível , offshore , eólica , energia renovável ,
+            hidrogênio
+            verde , transição energética , terminal de petróleo , terminal de combustíveis
+
+            <li><b>Parcerias</b></li>
+            : parceria, acordo, cooperação, memorando, convênio, investidor, empresa, empresas, joint
+            venture,
+            assinatura
+
+            <li><b>Impacto Internacional</b></li>
+            : internacional, global, mercado internacional, exportação, china, estados unidos, europa,
+            rússia, oriente
+            médio, américa latina, comércio exterior
+
+        </ul>
+
+    </div>
+</section>
+{% endblock %}

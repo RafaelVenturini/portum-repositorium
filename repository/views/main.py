@@ -11,7 +11,7 @@ from sqlalchemy.orm import joinedload
 
 from repository.ext.db import db
 from repository.forms.main import NewsLetterForm
-from repository.models import Articles, Article_tags
+from repository.models import Articles, Article_tags, Tags
 
 # from repository.forms.main import NewsLetterForm
 
@@ -62,3 +62,22 @@ def newsletter():
         print(form.errors)
 
     return render_template("main/newsletter.html", form=form)
+
+
+@bp_main.route("/tags/<int:tag_id>")
+def tags(tag_id):
+    current_app.logger.debug(f"Renderiznado news.html com apenas a tag {tag_id}")
+    articles = (
+        Articles.query.join(Articles.article_tags)
+        .filter(Article_tags.tag_id == tag_id)
+        .order_by(Articles.published_at.desc())
+        .all()
+    )
+    tag = Tags.query.get(tag_id)
+
+    return render_template("main/news.html", articles=articles, tag=tag)
+
+
+@bp_main.route("/about")
+def about():
+    return render_template("main/about.html")

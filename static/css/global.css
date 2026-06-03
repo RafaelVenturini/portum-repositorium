@@ -1,38 +1,49 @@
 .article-card {
-  color: inherit;
-  display: block;
-  height: 100%;
-  transition: transform 120ms ease, box-shadow 120ms ease;
+    color: inherit;
+    display: block;
+    height: 100%;
+    transition: transform 120ms ease, box-shadow 120ms ease;
 }
 
 .article-card:hover {
-  box-shadow: 0 0.5rem 1.25rem rgba(10, 10, 10, 0.12);
-  color: inherit;
-  transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1.25rem rgba(10, 10, 10, 0.12);
+    color: inherit;
+    transform: translateY(-2px);
 }
 
 .article-card .card-content {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .article-card .content {
-  margin-top: auto;
+    margin-top: auto;
 }
 
 .article-meta {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.25rem;
-  
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.25rem;
+
 }
 
 .article-meta p {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 .article-content img {
-  height: auto;
-  max-width: 100%;
+    height: auto;
+    max-width: 100%;
+}
+
+.footer {
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+    height: 3rem;
+}
+
+main {
+    padding-bottom: 5rem;
 }
