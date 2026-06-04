@@ -2,8 +2,8 @@ import json
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
-from ..helpers.save_article import parse_post, save_articles
 from ..helpers.scrapped_article import ScrapedArticle
+from ..helpers.word_press import wp_parse_post
 
 PORTO_CENTRAL_POSTS_URL = "https://www.portocentral.com.br/wp-json/wp/v2/posts"
 PORTO_CENTRAL_SOURCE_NAME = "Porto Central"
@@ -35,4 +35,4 @@ def fetch_porto_central_posts(limit=5, page=1, order="desc"):
 
 def scrape_porto_central(limit=5, page=1, order="desc") -> list[ScrapedArticle]:
     posts, url = fetch_porto_central_posts(limit=limit, page=page, order=order)
-    return [parse_post(post) for post in posts]
+    return [wp_parse_post(post) for post in posts]

@@ -1,8 +1,7 @@
 from datetime import datetime, UTC
-from html import unescape
-from html.parser import HTMLParser
 from typing import Iterable
-from urllib.parse import urlparse
+
+from bs4 import BeautifulSoup
 
 from repository.ext.db import db
 from repository.models import Articles, Article_tags, Tags
@@ -11,18 +10,10 @@ from repository.services.helpers.scrapped_article import ScrapedArticle
 from repository.services.helpers.tagger import tag_news
 
 
-class TextExtractor(HTMLParser):
-    def __init__(self):
-        super().__init__()
-        self.parts = []
-
-    def handle_data(self, data):
-        value = data.strip()
-        if value:
-            self.parts.append(value)
-
-    def text(self):
-        return " ".join(self.parts)
+def html_to_text(value):
+    if not value:
+        return ""
+    return BeautifulSoup(value, "html.parser").get_text(separator=" ", strip=True)
 
 
 def save_articles(articles: Iterable[ScrapedArticle]) -> tuple[int, int]:
@@ -79,34 +70,3 @@ def save_articles(articles: Iterable[ScrapedArticle]) -> tuple[int, int]:
 
     db.session.commit()
     return created, updated
-
-
-def parse_post(post: dict) -> ScrapedArticle:
-    embedded_author = post.get("_embedded", {}).get("author", [{}])[0]
-    url = (post.get("link", ""),)
-    url = url[0]
-
-    return ScrapedArticle(
-        news_id=int(post["id"]),
-        title=html_to_text(post.get("title", {}).get("rendered", "")),
-        html_content=post.get("content", {}).get("rendered", ""),
-        excerpt=html_to_text(post.get("excerpt", {}).get("rendered", "")),
-        url=url,
-        published_at=parse_wp_datetime(post.get("date")),
-        updated_at=parse_wp_datetime(post.get("modified")),
-        author_name=embedded_author.get("name") or "Porto Central",
-        author_about=embedded_author.get("description") or "",
-        source=urlparse(url).netloc,
-    )
-
-
-def parse_wp_datetime(value):
-    if not value:
-        return datetime.now(UTC)
-    return datetime.fromisoformat(value)
-
-
-def html_to_text(value):
-    parser = TextExtractor()
-    parser.feed(value or "")
-    return unescape(parser.text())
