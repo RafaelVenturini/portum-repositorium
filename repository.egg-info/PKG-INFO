@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: repository
-Version: 0.2.1
+Version: 0.2.2
 Summary: A repository of news about Central Port
 Author-email: Rafael Venturini Dipalma <rafaelventurinidipalma@gmail.com>
 Requires-Python: >=3.9
@@ -13,6 +13,8 @@ Requires-Dist: flask-wtf
 Requires-Dist: email-validator
 Requires-Dist: flask-sqlalchemy
 Requires-Dist: playwright
+Requires-Dist: unidecode>=1.4.0
+Requires-Dist: invoke>=3.0.3
 Provides-Extra: dev
 Requires-Dist: ipython; extra == "dev"
 Requires-Dist: flask-shell-ipython; extra == "dev"

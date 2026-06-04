@@ -6,6 +6,8 @@ flask-wtf
 email-validator
 flask-sqlalchemy
 playwright
+unidecode>=1.4.0
+invoke>=3.0.3
 
 [dev]
 ipython
