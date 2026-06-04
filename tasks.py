@@ -41,7 +41,7 @@ def uninstall(c):
     """
     Remove o pacote instalado.
     """
-    c.run("pip uninstall -y delivery", echo=True)
+    c.run("pip uninstall -y repository", echo=True)
 
 
 # ==========================================================
@@ -102,12 +102,12 @@ def format(c):
 @task
 def zip(c, name=None):
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M")
-    zip_filename = name or f"delivery-projeto-{timestamp}.zip"
+    zip_filename = name or f"portum-repositorium{timestamp}.zip"
     zip_path = os.path.abspath(os.path.join("..", zip_filename))
 
     print(f"→ Criando ZIP: {zip_path}")
 
-    excludes = ["venv", "__pycache__", ".git", ".vscode", "delivery.egg-info"]
+    excludes = ["venv", "__pycache__", ".git", ".vscode"]
 
     with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zipf:
         for root, dirs, files in os.walk("."):

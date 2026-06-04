@@ -1,0 +1,6 @@
+instance
+manuals
+repository
+static
+templates
+venv

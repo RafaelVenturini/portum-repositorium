@@ -7,29 +7,30 @@ requires = ["setuptools>=70.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "delivery"
-# major (mudanca grande), minor (versao trabalhada), patch (correcao bug)
-version = "0.2.1"
-description = "A web platform for managing food delivery orders and restaurant operations."
+name = "repository"
+version = "0.2.2"
+description = "A repository of news about Central Port"
 readme = "README.md"
 requires-python = ">=3.9"
 license = { file = "LICENSE" }
 authors = [
-    { name = "Wanderson Santana", email = "wanderson.santana@uvv.br" }
+    { name = "Rafael Venturini Dipalma", email = "rafaelventurinidipalma@gmail.com" }
 ]
 dependencies = [
-    "Flask",
+    "flask",
+    "sqlalchemy",
+    "bs4",
     "dotenv",
     "flask-wtf",
     "email-validator",
     "flask-sqlalchemy",
-    "playwright"
+    "playwright",
 ]
 
 
-[tool.delivery]
-display_name = "UVVFoods"
-company = "UVV Tecnologia"
+[tool.repository]
+display_name = "repository"
+company = "Ruffus Buffus"
 
 
 [project.optional-dependencies]
@@ -65,6 +66,16 @@ exclude = ["tests*", "docs*"]         # exemplo de exclusao comum
 [tool.setuptools.package-data]
 "*" = ["*.html", "*.css", "*.js", "*.json", "*.png", "*.jpg"]   # para todos os pacotes
 "views" = ["templates/*", "static/*"]
+
+[dependency-groups]
+dev = [
+    "black>=25.11.0",
+    "deptry>=0.23.1",
+    "flake8>=7.3.0",
+    "flask-debugtoolbar>=0.16.0",
+    "flask-shell-ipython>=0.5.3",
+    "ipython>=8.18.1",
+]
 
 #deploy = [
 #    "flit==0.1.0",
