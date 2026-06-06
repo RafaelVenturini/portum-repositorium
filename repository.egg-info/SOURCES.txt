@@ -11,6 +11,7 @@ repository/ext/db/__init__.py
 repository/ext/db/seed.py
 repository/ext/db/tags.py
 repository/ext/debugtoolbar/__init__.py
+repository/ext/utils/easy_time.py
 repository/ext/wtf/__init__.py
 repository/forms/main.py
 repository/models/__init__.py
@@ -46,3 +47,4 @@ templates/main/partials/article_cards.html
 templates/main/partials/footer.html
 templates/main/partials/navbar.html
 tests/test_main.py
+uvv/main.png

@@ -1,8 +1,9 @@
-from invoke import task
-from datetime import datetime
-from dotenv import load_dotenv
 import os
 import zipfile
+from datetime import datetime
+
+from dotenv import load_dotenv
+from invoke import task
 
 
 # ==========================================================
@@ -101,27 +102,67 @@ def format(c):
 # ==========================================================
 @task
 def zip(c, name=None):
+    """
+    Cria um arquivo ZIP do projeto para entrega, excluindo cache e arquivos sensíveis.
+    """
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M")
-    zip_filename = name or f"portum-repositorium{timestamp}.zip"
-    zip_path = os.path.abspath(os.path.join("..", zip_filename))
+    zip_filename = name or f"portum-repositorium-{timestamp}.zip"
+
+    # diretório do projeto a ser empacotado (raiz do repositório)
+    project_root = os.path.abspath('.')
+
+    # colocamos o ZIP de saída dentro de `uvv/` por compatibilidade com o repositório,
+    # mas NÃO iremos percorrer esse diretório ao gerar o ZIP (evita incluir zips anteriores)
+    output_dir = os.path.abspath(os.path.join("uvv"))
+    os.makedirs(output_dir, exist_ok=True)
+    zip_path = os.path.join(output_dir, zip_filename)
 
     print(f"→ Criando ZIP: {zip_path}")
 
-    excludes = ["venv", "__pycache__", ".git", ".vscode"]
+    # pastas e padrões de arquivo a excluir
+    excludes = [
+        "venv", ".venv", "__pycache__", ".git", ".vscode", ".pytest_cache",
+        "dist", "build", "*.egg-info", "node_modules", "instance"
+    ]
 
+    exclude_extensions = (".pyc", ".pyo", ".pyd", ".log", ".db", ".sqlite3", ".lock")
+    exclude_patterns = [".env", ".env."]  # arquivos .env e .env.* (sensíveis)
+
+    # Gera o ZIP caminhando pela raiz do projeto, mas excluindo pastas listadas em `excludes`.
+    # Também garantimos que o diretório de saída (`uvv`) NÃO será percorrido para evitar incluir
+    # arquivos grandes já existentes (ex.: zips anteriores).
     with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zipf:
-        for root, dirs, files in os.walk("."):
-
-            dirs[:] = [d for d in dirs if d not in excludes]
+        for root, dirs, files in os.walk(project_root):
+            # Nome das pastas no nível atual
+            # Evita traversal em diretórios excluídos
+            dirs[:] = [d for d in dirs if d not in excludes and os.path.abspath(os.path.join(root, d)) != output_dir]
 
             for file in files:
-                if file.endswith((".pyc", ".pyo", ".pyd", ".log", ".db", ".sqlite3")):
+                # pula arquivos com extensões excluídas
+                if file.endswith(exclude_extensions):
+                    continue
+
+                # pula arquivos sensíveis (.env, .env.*)
+                if file == ".env" or file.startswith(".env."):
                     continue
 
                 filepath = os.path.join(root, file)
-                zipf.write(filepath)
+
+                # evita adicionar o próprio arquivo ZIP de saída ao arquivo (pode causar crescimento indefinido)
+                try:
+                    if os.path.abspath(filepath) == os.path.abspath(zip_path):
+                        continue
+                except Exception:
+                    pass
+
+                # adiciona ao zip mantendo estrutura relativa à raiz do projeto
+                arcname = os.path.relpath(filepath, project_root)
+                zipf.write(filepath, arcname=arcname)
 
     if os.path.exists(zip_path):
         size_mb = os.path.getsize(zip_path) / (1024 * 1024)
-        print(f"→ ZIP criado com sucesso: {zip_path}")
-        print(f"   Tamanho: {size_mb:.2f} MB")
+        print(f"✓ ZIP criado com sucesso!")
+        print(f"  Caminho: {zip_path}")
+        print(f"  Tamanho: {size_mb:.2f} MB")
+    else:
+        print(f"✗ Erro ao criar ZIP")

@@ -40,16 +40,22 @@ def save_articles(articles: Iterable[ScrapedArticle]) -> tuple[int, int]:
                 author_id=author.id,
             )
 
+            # adiciona artigo e associa tags com instancias (evita usar article.id antes do flush)
             db.session.add(article)
             for tag in tags:
-                tag_id = Tags.query.filter_by(name=tag).first().id
-                article_tags = Article_tags(article_id=article.id, tag_id=tag_id)
-                db.session.add(article_tags)
+                tag_obj = Tags.query.filter_by(name=tag).first()
+                if tag_obj is None:
+                    # cria tag caso nao exista (seed deveria prover, mas garantimos)
+                    tag_obj = Tags(name=tag)
+                    db.session.add(tag_obj)
+
+                article_tag = Article_tags(article=article, tag=tag_obj)
+                db.session.add(article_tag)
             created += 1
             continue
 
         article.title = item.title
-        article.html_content = item.html_content
+        article.html_content = sanitize_html(item.html_content)
         article.excerpt = item.excerpt
         article.published_at = item.published_at
         article.updated_at = item.updated_at
@@ -58,14 +64,22 @@ def save_articles(articles: Iterable[ScrapedArticle]) -> tuple[int, int]:
         article.author = author
 
         for tag in tags:
-            tag_id = Tags.query.filter_by(name=tag).first().id
-            tag_exists = Article_tags.query.filter_by(
-                article_id=article.id, tag_id=tag_id
-            ).first()
+            tag_obj = Tags.query.filter_by(name=tag).first()
+            if tag_obj is None:
+                tag_obj = Tags(name=tag)
+                db.session.add(tag_obj)
+
+            tag_exists = (
+                Article_tags.query.filter_by(article_id=article.id, tag_id=tag_obj.id).first()
+                if article.id is not None and tag_obj.id is not None
+                else None
+            )
+
             if tag_exists:
                 continue
-            article_tags = Article_tags(article_id=article.id, tag_id=tag_id)
-            db.session.add(article_tags)
+
+            article_tag = Article_tags(article=article, tag=tag_obj)
+            db.session.add(article_tag)
 
         updated += 1
 

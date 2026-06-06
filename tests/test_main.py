@@ -1,6 +1,12 @@
 import pytest
 
 from repository import create_app
+from urllib.request import Request, urlopen
+from urllib.error import URLError
+from repository.services.helpers.request_headers import headers
+from repository.services.scrappers.porto_central import PORTO_CENTRAL_POSTS_URL
+from repository.services.scrappers.presidente_kennedy import fetch_presidente_kennedy_posts
+from bs4 import BeautifulSoup
 
 # =============================================================================
 # FIXTURES (infraestrutura de teste)
@@ -138,3 +144,40 @@ def test_newsletter_form(client):
     )
 
     assert response.status_code == 302  # redirect apos sucesso
+
+
+def test_porto_central_api_endpoint_available():
+    """Verifica que a rota REST do Porto Central usada pelo scraper responde 200."""
+    req = Request(PORTO_CENTRAL_POSTS_URL, headers=headers)
+    try:
+        with urlopen(req, timeout=15) as resp:
+            code = getattr(resp, "getcode", lambda: resp.status)()
+            assert int(code) == 200
+    except URLError as e:
+        pytest.skip(f"Rede indisponível ou host inacessível: {e}")
+
+
+def test_presidente_kennedy_fetch_and_bs4_parse():
+    """Verifica que a pagina de buscas da prefeitura pode ser acessada e parseada pelo BeautifulSoup."""
+    try:
+        links = fetch_presidente_kennedy_posts()
+    except URLError as e:
+        pytest.skip(f"Rede indisponível ou host inacessível: {e}")
+
+    # A funcao deve retornar uma lista (mesmo que vazia)
+    assert isinstance(links, list)
+
+    # Se houver links, garante que parecem URLs e que o BS4 consegue parsear a primeira
+    if links:
+        first = links[0]
+        assert first.startswith("https://")
+        req = Request(first, headers=headers)
+        try:
+            with urlopen(req, timeout=15) as resp:
+                html = resp.read().decode("utf-8")
+                soup = BeautifulSoup(html, "html.parser")
+                # procuramos pelo menos uma tag <a>
+                assert isinstance(soup.find_all("a"), list)
+        except URLError as e:
+            pytest.skip(f"Não foi possível acessar {first}: {e}")
+

@@ -1,4 +1,5 @@
 import json
+import logging
 from socket import timeout
 from urllib.error import URLError
 from urllib.parse import urlencode
@@ -7,6 +8,8 @@ from urllib.request import Request, urlopen
 from repository.services.helpers.parsers.word_press import wp_parse_post
 from ..helpers.request_headers import headers
 from ..helpers.scrapped_article import ScrapedArticle
+
+logger = logging.getLogger(__name__)
 
 PORTO_CENTRAL_POSTS_URL = "https://www.portocentral.com.br/wp-json/wp/v2/posts"
 PORTO_CENTRAL_SOURCE_NAME = "Porto Central"
@@ -27,11 +30,15 @@ def fetch_porto_central_posts(limit=5, page=1, order="desc"):
             return json.load(response), url
 
     except timeout:
-        print("Timeout ao acessar Porto Central")
+        logger.error("Timeout ao acessar Porto Central")
         return [], url
 
     except URLError as e:
-        print(f"Erro de rede: {e}")
+        logger.error(f"Erro de rede ao acessar Porto Central: {e}")
+        return [], url
+
+    except Exception as e:
+        logger.exception("Erro inesperado ao buscar posts do Porto Central")
         return [], url
 
 

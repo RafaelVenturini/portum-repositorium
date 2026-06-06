@@ -11,7 +11,8 @@ from sqlalchemy.orm import joinedload
 
 from repository.ext.db import db
 from repository.forms.main import NewsLetterForm
-from repository.models import Articles, Article_tags, Tags
+from repository.models import Articles, Article_tags, Tags, Newsletter
+from datetime import datetime, UTC
 
 # from repository.forms.main import NewsLetterForm
 
@@ -55,11 +56,37 @@ def newsletter():
     current_app.logger.debug("Renderizando template newsletter.html")
 
     if form.validate_on_submit():
-        current_app.logger.info(f"Mensagem recebida do {form.email.data}")
-        flash("Mensagem enviada com sucesso!", "success")
-        return redirect(url_for("main.index"))
+        email = form.email.data
+        current_app.logger.info(f"Tentando inscrever {email} na newsletter")
+
+        try:
+            # Verifica se já existe
+            existing = Newsletter.query.filter_by(email=email).first()
+            if existing:
+                flash("E-mail já inscrito na newsletter.", "info")
+                return redirect(url_for("main.index"))
+
+            # Cria novo registro
+            n = Newsletter(
+                email=email,
+                subscribed_at=datetime.now(UTC),
+                is_active=True,
+            )
+            db.session.add(n)
+            db.session.commit()
+
+            current_app.logger.info(f"E-mail {email} inscrito com sucesso")
+            flash("Inscrição realizada com sucesso!", "success")
+            return redirect(url_for("main.index"))
+
+        except Exception as e:
+            current_app.logger.error(f"Erro ao persistir newsletter: {e}")
+            db.session.rollback()
+            flash("Ocorreu um erro ao processar sua inscrição.", "danger")
+
     else:
-        print(form.errors)
+        if form.errors:
+            current_app.logger.debug(f"Erros no formulário: {form.errors}")
 
     return render_template("main/newsletter.html", form=form)
 
