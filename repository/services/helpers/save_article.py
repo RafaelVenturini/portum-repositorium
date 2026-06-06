@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 from repository.ext.db import db
 from repository.models import Articles, Article_tags, Tags
 from repository.services.helpers.get_author import get_author
+from repository.services.helpers.parsers.html_parser import sanitize_html
 from repository.services.helpers.scrapped_article import ScrapedArticle
 from repository.services.helpers.tagger import tag_news
 
@@ -30,7 +31,7 @@ def save_articles(articles: Iterable[ScrapedArticle]) -> tuple[int, int]:
             article = Articles(
                 news_id=item.news_id,
                 title=item.title,
-                html_content=item.html_content,
+                html_content=sanitize_html(item.html_content),
                 excerpt=item.excerpt,
                 published_at=item.published_at,
                 updated_at=item.updated_at,

@@ -1489,6 +1489,7 @@ name = "repository"
 version = "0.2.2"
 source = { editable = "." }
 dependencies = [
+    { name = "beautifulsoup4" },
     { name = "bs4" },
     { name = "dotenv" },
     { name = "email-validator" },
@@ -1536,6 +1537,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "beautifulsoup4", specifier = ">=4.14.3" },
     { name = "black", marker = "extra == 'dev'" },
     { name = "bs4" },
     { name = "dotenv" },

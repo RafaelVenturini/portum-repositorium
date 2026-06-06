@@ -3,4 +3,3 @@ manuals
 repository
 static
 templates
-venv

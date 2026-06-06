@@ -16,9 +16,13 @@ def wp_parse_post(post: dict) -> ScrapedArticle:
     url = (post.get("link", ""),)
     url = url[0]
 
+    title = html_to_text(post.get("title", {}).get("rendered", ""))
+
+    print(f"Collected {title} from {url}")
+
     return ScrapedArticle(
         news_id=int(post["id"]),
-        title=html_to_text(post.get("title", {}).get("rendered", "")),
+        title=title,
         html_content=post.get("content", {}).get("rendered", ""),
         excerpt=html_to_text(post.get("excerpt", {}).get("rendered", "")),
         url=url,

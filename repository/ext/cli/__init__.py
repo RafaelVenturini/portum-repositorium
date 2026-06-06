@@ -1,7 +1,13 @@
+import time
+
 import click
 
 from repository.ext.db import db
 from repository.ext.db.seed import seed_db
+from repository.ext.utils.easy_time import elapsed_time
+from repository.services.helpers.save_article import save_articles
+from repository.services.scrappers.porto_central import scrape_porto_central
+from repository.services.scrappers.presidente_kennedy import scrape_presidente_kennedy
 
 
 def init_app(app):
@@ -33,15 +39,26 @@ def init_app(app):
     )
     def scrape_news(limit, page, order):
         """Busca noticias do Porto Central e salva no SQLite."""
-        from repository.services.scrappers.porto_central import (
-            save_articles,
-            scrape_porto_central,
-        )
+        start = time.perf_counter()
 
         db.create_all()
         articles = scrape_porto_central(limit=limit, page=page, order=order)
-        created, updated = save_articles(articles)
-        click.echo(f"Scraping finalizado: {created} criadas, {updated} atualizadas.")
+        port_created, port_updated = save_articles(articles)
+        click.echo(
+            f"Porto Central: {port_created} criadas, {port_updated} atualizadas. | duração de:{elapsed_time(start)}"
+        )
+
+        gov_articles = scrape_presidente_kennedy()
+        gov_created, gov_updated = save_articles(gov_articles)
+        click.echo(
+            f"Presidente Kennedy: {gov_created} criadas, {gov_updated} atualizadas. | duração de:{elapsed_time(start)}"
+        )
+
+        total_created = port_created + gov_created
+        total_updated = port_updated + gov_updated
+        click.echo(
+            f"Scraping finalizado: {total_created} criadas, {total_updated} atualizadas. | duração de:{elapsed_time(start)}"
+        )
 
     @app.cli.command("seed-db")
     def seed_db_cli():

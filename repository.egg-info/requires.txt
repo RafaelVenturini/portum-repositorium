@@ -8,6 +8,7 @@ flask-sqlalchemy
 playwright
 unidecode>=1.4.0
 invoke>=3.0.3
+beautifulsoup4>=4.14.3
 
 [dev]
 ipython
